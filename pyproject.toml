@@ -1,0 +1,41 @@
+# pyproject.toml
+[project]
+name = "fllume"
+version = "0.0.1"
+description = "A fluent API for data scientists to build and interact with LLM agents."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["LLM", "AI", "fluent-api", "data-science", "agents"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+authors = [
+    {name = "Michael Lawrence",email = "lawremi@gmail.com"}
+]
+dependencies = [
+    "any-llm-sdk>=0.6.0",
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0"
+ruff = ">=0.1.0"
+
+[tool.poetry]
+packages = [{include = "fllume", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[project.urls]
+"Homepage" = "https://github.com/lawremi/fllume"
+"Bug Tracker" = "https://github.com/lawremi/fllume/issues"
+"Documentation" = "https://lawremi.github.io/fllume/"
+"Source" = "https://github.com/lawremi/fllume"
