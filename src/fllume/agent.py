@@ -27,7 +27,7 @@ class Agent:
     ) -> Union[str, Generator[str, None, None]]:
         completion = any_llm.completion(
             self.model, 
-            messages = [{"role": "user", "content": prompt}],
+            messages = self.context + [{"role": "user", "content": prompt}],
             stream = stream
         )
         if stream:
@@ -45,6 +45,7 @@ class AgentBuilder:
         self.context = []
 
     def build(self) -> Agent:
+        assert self.model is not None, "Model must be specified"    
         return self.agent_cls(self.model, self.context)
 
     def with_model(self, model: str) -> 'AgentBuilder':
