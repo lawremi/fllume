@@ -2,9 +2,13 @@ import any_llm
 from typing import Type, Iterator, Union, Generator, Any
 
 class Agent:
-    def __init__(self, model: str, context: list[dict[str, Any]]):
+    def __init__(
+        self, model: str, context: list[dict[str, Any]], 
+        instructions: str
+    ):
         self.model = model
         self.context = context
+        self.instructions = instructions
     
     @classmethod
     def builder(cls) -> 'AgentBuilder':
@@ -27,7 +31,14 @@ class Agent:
     ) -> Union[str, Generator[str, None, None]]:
         completion = any_llm.completion(
             self.model, 
-            messages = self.context + [{"role": "user", "content": prompt}],
+            messages = (
+                self.context
+                + (
+                    [{"role": "system", "content": self.instructions}] 
+                    if self.instructions else []
+                )
+                + [{"role": "user", "content": prompt}]
+            ),
             stream = stream
         )
         if stream:
@@ -36,17 +47,24 @@ class Agent:
             return completion.choices[0].message.content
     
     def __repr__(self) -> str:
-        return f'Agent(model={self.model}, context={self.context})'
+        return (
+            f"Agent("
+            f"model={self.model}, "
+            f"context={self.context}, "
+            f"instructions={self.instructions}"
+            f")"
+        )
 
 class AgentBuilder:
     def __init__(self, agent_cls: Type[Agent]):
         self.agent_cls = agent_cls
         self.model = None
         self.context = []
+        self.instructions = None
 
     def build(self) -> Agent:
-        assert self.model is not None, "Model must be specified"    
-        return self.agent_cls(self.model, self.context)
+        assert self.model is not None, "Model must be specified"
+        return self.agent_cls(self.model, self.context, self.instructions)
 
     def with_model(self, model: str) -> 'AgentBuilder':
         self.model = model
@@ -54,4 +72,8 @@ class AgentBuilder:
     
     def with_context(self, context: list[dict[str, Any]]):
         self.context = context
+        return self
+
+    def with_instructions(self, instructions: str):
+        self.instructions = instructions
         return self
