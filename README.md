@@ -1,6 +1,6 @@
 # fllume: A Fluent Python API for LLM Agents
 
-fllume provides a fluent API for data scientists to build and interact with Large Language Model (LLM) agents in Python. Inspired by fluent APIs in the R ecosystem but adapted for Python, fllume simplifies interactions with LLMs so that data scientists can more easily apply them to their scientific workflows.
+fllume provides a fluent API for data scientists to build and interact with Large Language Model (LLM) agents in Python. Inspired by fluent APIs in the R ecosystem but adapted for Python, fllume simplifies interactions with LLMs so that data scientists can more easily apply them to their scientific workflows. For example, an agent could execute a database query, munge data, generate a workflow, or produce a report. The goal is _not_ to provide a chatbot in Python (see e.g. [chatlas](https://github.com/posit-dev/chatlas) for that).
 
 Only simple text completions are currently supported. The goal is to support simple tool calling, which is the extent of the underlying any-llm abstraction.
 
