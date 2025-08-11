@@ -3,12 +3,16 @@ from typing import Type, Iterator, Union, Generator, Any
 
 class Agent:
     def __init__(
-        self, model: str, context: list[dict[str, Any]], 
-        instructions: str
+        self, 
+        model: str, 
+        context: list[dict[str, Any]], 
+        instructions: str, 
+        params: dict[str, Any]
     ):
         self.model = model
         self.context = context
         self.instructions = instructions
+        self.params = params
     
     @classmethod
     def builder(cls) -> 'AgentBuilder':
@@ -39,7 +43,8 @@ class Agent:
                 )
                 + [{"role": "user", "content": prompt}]
             ),
-            stream = stream
+            stream = stream,
+            **self.params
         )
         if stream:
             return self._stream_completion(completion)
@@ -61,10 +66,16 @@ class AgentBuilder:
         self.model = None
         self.context = []
         self.instructions = None
+        self.params = {}
 
     def build(self) -> Agent:
         assert self.model is not None, "Model must be specified"
-        return self.agent_cls(self.model, self.context, self.instructions)
+        return self.agent_cls(
+            self.model, 
+            self.context, 
+            self.instructions,
+            self.params
+        )
 
     def with_model(self, model: str) -> 'AgentBuilder':
         self.model = model
@@ -76,4 +87,8 @@ class AgentBuilder:
 
     def with_instructions(self, instructions: str):
         self.instructions = instructions
+        return self
+    
+    def with_params(self, params: dict[str, Any]):
+        self.params = params
         return self

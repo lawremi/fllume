@@ -26,3 +26,15 @@ def test_agent_builder_creates_agent_with_correct_context():
     )
     assert isinstance(agent, fllume.Agent)
     assert agent.context == context
+
+def test_agent_builder_creates_agent_with_correct_params():
+    model_id = "test_provider/test_model"
+    params = {"temperature": 0.5}
+    agent = (
+        fllume.Agent.builder().
+        with_model(model_id).
+        with_params(params).
+        build()
+    )
+    assert isinstance(agent, fllume.Agent)
+    assert agent.params == params
