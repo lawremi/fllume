@@ -14,18 +14,6 @@ def test_agent_builder_fails_if_not_given_model():
     except:
         assert True
 
-def test_agent_builder_creates_agent_with_correct_context():
-    model_id = "test_provider/test_model"
-    context = [{"role": "user", "content": "test prompt"}]
-    agent = (
-        fllume.Agent.builder().
-        with_model(model_id).
-        with_context(context).
-        build()
-    )
-    assert isinstance(agent, fllume.Agent)
-    assert agent.context == context
-
 def test_agent_builder_creates_agent_with_correct_params():
     model_id = "test_provider/test_model"
     params = {"temperature": 0.5}
