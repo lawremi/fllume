@@ -3,6 +3,7 @@ import os
 import fllume
 from dotenv import load_dotenv
 from typing import Generator
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -92,3 +93,22 @@ def test_agent_tool_calling_streaming():
 
     full_response = "".join(response_parts)
     assert "Alice" in full_response
+
+class User(BaseModel):
+    name: str
+    age: int
+
+@requires_openai
+def test_agent_response_format():
+    agent = (
+        fllume.Agent.builder()
+        .with_model(MODEL)
+        .with_response_format(User)
+        .build()
+    )
+    prompt = "The user's name is Jean-Luc and he is 59 years old."
+    response = agent.complete(prompt)
+
+    assert isinstance(response, User)
+    assert response.name == "Jean-Luc"
+    assert response.age == 59
