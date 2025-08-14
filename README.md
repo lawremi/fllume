@@ -4,27 +4,15 @@ fllume provides a fluent API for data scientists to build and interact with Larg
 
 ## Installation
 
-### Using uv (recommended)
-
 ```bash
 # Install directly from GitHub
 uv pip install git+https://github.com/lawremi/fllume.git
 
 # Or install in editable mode for development
 git clone https://github.com/lawremi/fllume.git
-cd fllume
-uv pip install -e ".[dev,doc]"
-```
-
-### Using pip
-
-```bash
-# Install directly from GitHub
-pip install git+https://github.com/lawremi/fllume.git
-
 # Or install in editable mode for development
 cd fllume
-pip install -e ".[dev,doc]"
+uv pip install -e ".[dev,doc]"
 ```
 
 ## Usage
