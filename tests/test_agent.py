@@ -2,7 +2,7 @@ import pytest
 import os
 import fllume
 from dotenv import load_dotenv
-from typing import Generator, Union
+from typing import Generator
 from pydantic import BaseModel
 
 load_dotenv()
