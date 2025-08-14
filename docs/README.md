@@ -28,9 +28,9 @@ docs/
 
 ### Prerequisites
 
-1. Install Python dependencies:
+1. Set up your local development environment by following the instructions in the main `README.md`. This includes creating a virtual environment and installing all dependencies with:
    ```bash
-   # From the root of the project
+   uv venv
    uv pip install -e ".[dev,doc]"
    ```
 
