@@ -80,21 +80,13 @@ Integrate custom Python functions as tools for your agent to perform specific co
 
 ```python
 from fllume.agent import Agent
-from typing import Callable, Any
 
 def calculate_average(numbers: list[float]) -> float:
     """Calculates the average of a list of numbers."""
-    # WORKAROUND: The underlying any-llm library incorrectly generates
-    # a schema for list[float], causing the LLM to pass a string.
-    # This makes the example tool robust to that specific failure mode.
-    if isinstance(numbers, str):
-        numbers = [float(n.strip()) for n in numbers.split(",")]
     return sum(numbers) / len(numbers)
 
 def find_max(numbers: list[float]) -> float:
     """Finds the maximum value in a list of numbers."""
-    if isinstance(numbers, str):
-        numbers = [float(n.strip()) for n in numbers.split(",")]
     return max(numbers)
 
 agent_data_analyzer = (

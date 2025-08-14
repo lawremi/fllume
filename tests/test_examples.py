@@ -34,10 +34,7 @@ def test_example_1_data_standardization():
         fllume.Agent.builder()
         .with_model(MODEL)
         .with_instructions(
-            (
-                "Standardize the given address into its components: "
-                "street, city, state, and zip code."
-            )
+            "Standardize the given address into its components: street, city, state, and zip code."
         )
         .with_response_format(StandardizedAddress)
         .with_prompt_template("Standardize this address: {address}")
@@ -69,17 +66,10 @@ def test_example_2_numerical_computation():
 
     def calculate_average(numbers: list[float]) -> float:
         """Calculates the average of a list of numbers."""
-        # WORKAROUND: The underlying any-llm library incorrectly generates
-        # a schema for list[float], causing the LLM to pass a string.
-        # This makes the example tool robust to that specific failure mode.
-        if isinstance(numbers, str):
-            numbers = [float(n.strip()) for n in numbers.split(",")]
         return sum(numbers) / len(numbers)
 
     def find_max(numbers: list[float]) -> float:
         """Finds the maximum value in a list of numbers."""
-        if isinstance(numbers, str):
-            numbers = [float(n.strip()) for n in numbers.split(",")]
         return max(numbers)
 
     agent_data_analyzer = (
@@ -119,11 +109,7 @@ def test_example_3_data_summary_streaming():
         fllume.Agent.builder()
         .with_model(MODEL)
         .with_instructions(
-            (
-                "You are a data analyst. Summarize the key insights from the "
-                "provided DataFrame, focusing on population and area trends. "
-                "Be concise but informative."
-            )
+            "You are a data analyst. Summarize the key insights from the provided DataFrame, focusing on population and area trends. Be concise but informative."
         )
         .with_prompt_template("Summarize the following DataFrame:\n{dataframe}")
         .build()
@@ -151,10 +137,7 @@ def test_example_4_multi_turn_conversation():
         fllume.Agent.builder()
         .with_model(MODEL)
         .with_instructions(
-            (
-                "You are a data visualization assistant. You provide Python code "
-                "snippets for generating plots with matplotlib."
-            )
+            "You are a data visualization assistant. You provide Python code snippets for generating plots with matplotlib."
         )
         .build()
     )

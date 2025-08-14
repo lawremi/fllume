@@ -70,28 +70,27 @@ Let's create an agent that extracts structured data from a sentence.
 Adding Capabilities with Tools
 ------------------------------
 
-You can give your agent new abilities by providing it with Python functions as tools. `fllume` handles the complex parts of making the LLM aware of the tools and executing them.
+You can give your agent new abilities by providing it with Python functions as tools. `fllume` handles the complex parts of making the LLM aware of the tools and executing them. This is ideal for data science tasks like performing custom calculations.
 
 .. code-block:: python
 
    from fllume.agent import Agent
 
-   def get_user_name(user_id: int) -> str:
-       """A dummy tool to get a username from a user ID."""
-       if user_id == 123:
-           return "Alice"
-       return "Unknown User"
+   def calculate_average(numbers: list[float]) -> float:
+       """Calculates the average of a list of numbers."""
+       return sum(numbers) / len(numbers)
 
    tool_agent = (
        Agent.builder()
        .with_model("openai/gpt-4o-mini")
-       .with_tools([get_user_name])
+       .with_tools([calculate_average])
        .build()
    )
 
-   response = tool_agent.complete("What is the username for user ID 123?")
+   data = [10.5, 20.3, 15.7, 25.1, 12.9]
+   response = tool_agent.complete(f"What is the average of these numbers: {data}?")
    print(response)
-   # Expected output: The username for user ID 123 is Alice.
+   # Expected output: The average of the numbers is 16.9.
 
 Streaming Responses
 -------------------
