@@ -228,7 +228,7 @@ class Agent:
         self, 
         tool_function: Callable[..., Any], 
         arguments: dict[str, Any]
-    ) -> Any:
+    ) -> str:
         """Executes a tool function, catching any exceptions and returning 
         any error messages to the LLM."""
         try:
@@ -241,7 +241,7 @@ class Agent:
                 exc_info=True
             )
             content = f"Error executing tool: {e}" # Return error msg to LLM
-        return content
+        return str(content)
 
     def _call_tools(self, tool_calls: list[Any]) -> list[dict[str, Any]]:
         tool_dict = {tool.__name__: tool for tool in self.tools}
