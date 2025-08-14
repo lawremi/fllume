@@ -144,6 +144,25 @@ for chunk in agent_data_summarizer.complete({"dataframe": df_str}, stream=True):
 print()
 ```
 
+### Example 4: Multi-turn Conversations
+fllume can maintain conversational context, allowing for follow-up questions and more complex interactions.
+```python
+from fllume.agent import Agent
+# Create an agent
+tutor = (
+    Agent.builder()
+    .with_model("openai/gpt-4o-mini")
+    .with_instructions("You are a helpful Python tutor.")
+    .build()
+)
+# Start the conversation. We manually create the initial context.
+context = tutor.complete_with_context(prompt="What is a list in Python?")
+print(f"Assistant: {context[-1].content}")
+# Ask a follow-up question. The agent remembers the previous turn.
+context = tutor.complete_with_context(context, "Can you give me an example of one?")
+print(f"\nAssistant: {context[-1].content}")
+```
+
 ## A Lightweight Convenience Layer for LLM Interactions
 
 `fllume` provides a Pythonic, fluent interface that simplifies common LLM interaction patterns, abstracting away much of the boilerplate often found in direct LLM API calls.

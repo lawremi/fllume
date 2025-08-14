@@ -138,3 +138,33 @@ def test_example_3_data_summary_streaming():
     assert "population" in full_response.lower()
     assert "area" in full_response.lower()
     assert "New York" in full_response
+
+
+@requires_openai
+def test_example_4_multi_turn_conversation():
+    """
+    Tests the multi-turn conversation example from README.md.
+    """
+    tutor = (
+        fllume.Agent.builder()
+        .with_model(MODEL)
+        .with_instructions("You are a concise, helpful Python tutor.")
+        .build()
+    )
+
+    # Start the conversation with the system prompt
+    context = [{"role": "system", "content": tutor.instructions}]
+
+    # First turn
+    context = tutor.complete_with_context(
+        context=context, prompt="What is a list in Python?"
+    )
+    first_response = context[-1].content
+    assert "list" in first_response.lower()
+
+    # Second turn (follow-up question)
+    context = tutor.complete_with_context(
+        context=context, prompt="Can you give me an example of one?"
+    )
+    second_response = context[-1].content
+    assert ("`" in second_response) or ("[" in second_response)
