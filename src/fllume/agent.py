@@ -375,7 +375,7 @@ class AgentBuilder:
         self.model = model
         return self
 
-    def with_instructions(self, instructions: str):
+    def with_instructions(self, instructions: str) -> "AgentBuilder":
         """Sets the system-level instructions for the agent.
 
         Args:
@@ -388,7 +388,7 @@ class AgentBuilder:
         self.instructions = instructions
         return self
     
-    def with_tools(self, tools: list[Callable[..., Any]]):
+    def with_tools(self, tools: list[Callable[..., Any]]) -> "AgentBuilder":
         """Provides a list of Python functions to be used as tools by the agent.
 
         Args:
@@ -427,7 +427,7 @@ class AgentBuilder:
         self.prompt_template = template
         return self
 
-    def with_params(self, params: dict[str, Any]):
+    def with_params(self, params: dict[str, Any]) -> "AgentBuilder":
         """Sets additional parameters to be passed to the LLM API.
 
         Args:
