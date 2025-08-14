@@ -19,11 +19,11 @@ jobs:
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install dependencies
-        run: uv pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
       - name: Run linter
         run: |
-          uv run ruff check .
-          uv run ruff format --check .
+          ruff check .
+          ruff format --check .
 
   test:
     runs-on: ubuntu-latest
@@ -43,9 +43,9 @@ jobs:
       run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
     - name: Install dependencies
-      run: uv pip install -e ".[dev]"
+      run: uv pip install --system -e ".[dev]"
 
     - name: Run tests
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      run: uv run pytest
+      run: pytest
