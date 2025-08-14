@@ -12,6 +12,15 @@ from any_llm.types.completion import (
 logger = logging.getLogger(__name__)
 
 class Agent:
+    """An LLM-powered agent that can complete prompts, use tools, and more.
+
+    The Agent class is the main entry point for interacting with large language
+    models. It can be configured with specific instructions, tools, response
+    formats, and other parameters to tailor its behavior for specific tasks.
+
+    It is recommended to create Agent instances using the fluent `AgentBuilder`
+    by calling `Agent.builder()`.
+    """
     def __init__(
         self, 
         model: str, 
@@ -21,6 +30,23 @@ class Agent:
         prompt_template: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
     ):
+        """Initializes the Agent.
+
+        Args:
+            model: The identifier of the language model to use (e.g.,
+                'ollama/llama3'). See the `any-llm documentation
+                <https://mozilla-ai.github.io/any-llm/providers/>`_ for a
+                full list of providers, depending on how any-llm was installed.
+            instructions: The system-level instructions for the agent.
+            tools: A list of Python functions to be used as tools.
+                Annotating each function with a docstring and type hints will
+                help the model make effective use of them.
+            response_format: The desired format for the response, e.g., a
+                Pydantic model or a JSON schema.
+            prompt_template: A template for formatting dictionary-based
+                prompts, as a format string.
+            params: Additional parameters to pass to the LLM API.
+        """
         self.model = model
         self.tools = tools if tools is not None else []
         self.response_format = response_format
@@ -30,9 +56,19 @@ class Agent:
         
     @classmethod
     def builder(cls) -> 'AgentBuilder':
+        """Creates a new AgentBuilder instance for fluently 
+        constructing an Agent.
+
+        Returns:
+            An instance of AgentBuilder.
+        """
         return AgentBuilder(cls)
 
     def _build_instructions(self, instructions: Optional[str]) -> str:
+        """
+        Extends the user-provided instructions to enable tool usage 
+        and response formatting.
+        """
         base = (
             instructions
             if instructions is not None
@@ -48,7 +84,9 @@ class Agent:
                     "response must be in a JSON format."
                 )
             else:
-                parts.append("You must output your response in a JSON format.")
+                parts.append(
+                    "You must output your response in a JSON format."
+                )
         return " ".join(parts)
 
     def _stream_messages(
@@ -120,7 +158,8 @@ class Agent:
         if isinstance(prompt, dict):
             if not self.prompt_template:
                 raise ValueError(
-                    "A dict prompt was provided, but the agent has no prompt_template."
+                    "A dict prompt was provided, but the agent has no "
+                    "prompt_template."
                 )
             prompt_str = self.prompt_template.format(**prompt)
         else:
@@ -134,6 +173,24 @@ class Agent:
         prompt: Union[str, dict[str, Any], None] = None,
         stream: bool = False
     ) -> Union[list[dict[str, Any]], Generator[dict[str, Any], None, None]]:
+        """Executes a completion within a given conversational context.
+
+        This method is used for multi-turn interactions. The `context` returned
+        from one call should be passed as the `context` argument in the next
+        call to maintain the conversational history.
+
+        Args:
+            context: The list of messages representing the conversation
+                history.
+            prompt: The new user prompt to add to the conversation.
+            stream: If True, the response will be returned as a generator of
+                message objects. Defaults to False.
+
+        Returns:
+            If streaming, a generator that yields message objects. If not
+            streaming, the updated context list including the new user prompt
+            and the assistant's response.
+        """
         context = context if context is not None else []
         user_message = self._build_user_message(prompt)
         
@@ -172,6 +229,8 @@ class Agent:
         tool_function: Callable[..., Any], 
         arguments: dict[str, Any]
     ) -> Any:
+        """Executes a tool function, catching any exceptions and returning 
+        any error messages to the LLM."""
         try:
             content = tool_function(**arguments)
         except Exception as e:
@@ -217,6 +276,22 @@ class Agent:
     def complete(
         self, prompt: Union[str, dict[str, Any]], stream: bool = False
     ) -> Union[str, Generator[str, None, None], BaseModel, dict[str, Any]]:
+        """Executes a prompt and returns the agent's response.
+
+        This is the primary method for interacting with the agent. It takes a
+        prompt, sends it to the LLM (along with any configured context, tools,
+        etc.), and returns the final response.
+
+        Args:
+            prompt: The user prompt. Can be a string or a dictionary if the
+                agent was configured with a `prompt_template`.
+            stream: If True, the response will be returned as a generator of
+                string chunks. Defaults to False.
+
+        Returns:
+            The agent's response, which can be a string, a Pydantic model, a
+            dictionary, or a generator of strings if streaming.
+        """
         context = [{"role": "system", "content": self.instructions}]
         completion = self.complete_with_context(context, prompt, stream)
         if stream:
@@ -243,7 +318,13 @@ class Agent:
         )
 
 class AgentBuilder:
+    """A fluent builder for creating and configuring Agent instances."""
     def __init__(self, agent_cls: Type[Agent]):
+        """Initializes the AgentBuilder.
+
+        Args:
+            agent_cls: The Agent class to be instantiated by the builder.
+        """
         self.agent_cls = agent_cls
         self.model = None
         self.instructions = None
@@ -253,6 +334,11 @@ class AgentBuilder:
         self.tools = []
         
     def build(self) -> Agent:
+        """Builds and returns a configured Agent instance.
+
+        Returns:
+            A new Agent instance with the specified configuration.
+        """
         assert self.model is not None, "Model must be specified"
         return self.agent_cls(
             self.model, 
@@ -264,27 +350,80 @@ class AgentBuilder:
         )
 
     def with_model(self, model: str) -> 'AgentBuilder':
+        """Sets the language model for the agent.
+
+        Args:
+            model: The identifier of the language model to use (e.g.,
+                "ollama/llama3").  See the `any-llm documentation
+                <https://mozilla-ai.github.io/any-llm/providers/>`_ for a
+                full list of providers, depending on how any-llm was installed.
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.model = model
         return self
 
     def with_instructions(self, instructions: str):
+        """Sets the system-level instructions for the agent.
+
+        Args:
+            instructions: A string containing the instructions that guide the
+                agent's behavior.
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.instructions = instructions
         return self
     
     def with_tools(self, tools: list[Callable[..., Any]]):
+        """Provides a list of Python functions to be used as tools by the agent.
+
+        Args:
+            tools: A list of callable Python functions.
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.tools = tools
         return self
 
     def with_response_format(
         self, response_format: Union[dict[str, Any], type[BaseModel]]
     ) -> "AgentBuilder":
+        """Specifies the desired format for the agent's response.
+
+        Args:
+            response_format: A Pydantic model or a JSON schema dictionary that
+                defines the structure of the output.
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.response_format = response_format
         return self
 
     def with_prompt_template(self, template: str) -> "AgentBuilder":
+        """Sets a prompt template for formatting dictionary-based prompts.
+
+        Args:
+            template: A format string (e.g., "Summarize: {text}").
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.prompt_template = template
         return self
 
     def with_params(self, params: dict[str, Any]):
+        """Sets additional parameters to be passed to the LLM API.
+
+        Args:
+            params: A dictionary of parameters (e.g., {"temperature": 0.7}).
+
+        Returns:
+            The AgentBuilder instance for chaining.
+        """
         self.params = params
         return self
