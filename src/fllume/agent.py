@@ -323,7 +323,7 @@ class Agent:
             f"instructions='{self.instructions}', "
             f"tools={tool_names}, "
             f"response_format={response_format_repr}, "
-            f"prompt_template='{self.prompt_template}', "
+            f"prompt_template={self.prompt_template!r}, "
             f"params={self.params}"
             f")"
         )
