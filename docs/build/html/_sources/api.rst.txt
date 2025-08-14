@@ -1,9 +1,0 @@
-API Reference
-=============
-
-This page provides an auto-generated summary of fllume's public API.
-
-.. automodule:: fllume.agent
-   :members:
-   :undoc-members:
-   :show-inheritance:
