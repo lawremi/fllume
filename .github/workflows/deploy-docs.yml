@@ -27,8 +27,13 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
       - name: Install dependencies
-        run: pip install .[doc]
+        run: |
+          uv venv
+          uv pip install .[doc]
 
       - name: Build Sphinx documentation
         run: make -C docs html
