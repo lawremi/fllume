@@ -6,10 +6,11 @@ from pydantic import BaseModel
 from any_llm.types.completion import (
     ChatCompletionMessage,
     ChatCompletionMessageFunctionToolCall,
-    Function
+    Function,
 )
 
 logger = logging.getLogger(__name__)
+
 
 class Agent:
     """An LLM-powered agent that can complete prompts, use tools, and more.
@@ -21,10 +22,11 @@ class Agent:
     It is recommended to create Agent instances using the fluent `AgentBuilder`
     by calling `Agent.builder()`.
     """
+
     def __init__(
-        self, 
-        model: str, 
-        instructions: Optional[str] = None, 
+        self,
+        model: str,
+        instructions: Optional[str] = None,
         tools: Optional[list[Callable[..., Any]]] = None,
         response_format: Optional[Union[dict[str, Any], type[BaseModel]]] = None,
         prompt_template: Optional[str] = None,
@@ -53,10 +55,10 @@ class Agent:
         self.prompt_template = prompt_template
         self.params = params if params is not None else {}
         self.instructions = self._build_instructions(instructions)
-        
+
     @classmethod
-    def builder(cls) -> 'AgentBuilder':
-        """Creates a new AgentBuilder instance for fluently 
+    def builder(cls) -> "AgentBuilder":
+        """Creates a new AgentBuilder instance for fluently
         constructing an Agent.
 
         Returns:
@@ -66,7 +68,7 @@ class Agent:
 
     def _build_instructions(self, instructions: Optional[str]) -> str:
         """
-        Extends the user-provided instructions to enable tool usage 
+        Extends the user-provided instructions to enable tool usage
         and response formatting.
         """
         base = (
@@ -84,28 +86,25 @@ class Agent:
                     "response must be in a JSON format."
                 )
             else:
-                parts.append(
-                    "You must output your response in a JSON format."
-                )
+                parts.append("You must output your response in a JSON format.")
         return " ".join(parts)
 
     def _stream_messages(
-        self, completions: Iterator[Any],
-        context: list[dict[str, Any]]
+        self, completions: Iterator[Any], context: list[dict[str, Any]]
     ) -> Generator[dict[str, Any], None, None]:
         """
         Helper generator method to extract messages from
         any_llm.completion().
         """
         tool_calls = []
-        
+
         for chunk in completions:
             delta = chunk.choices[0].delta
             assert not (delta.content and tool_calls), (
                 "Received a content chunk after a tool call was "
                 "already initiated in the stream."
             )
-            
+
             if delta.tool_calls:
                 for tool_call_delta in delta.tool_calls:
                     index = tool_call_delta.index
@@ -114,28 +113,25 @@ class Agent:
                         tool_calls.append(tool_call_delta)
                     else:
                         # Continuation - merge arguments
-                        tool_calls[index].function.arguments += (
-                            tool_call_delta.function.arguments
-                        )
+                        tool_calls[
+                            index
+                        ].function.arguments += tool_call_delta.function.arguments
             else:
                 yield delta
-        
+
         if tool_calls:
             completed_tool_calls = [
                 ChatCompletionMessageFunctionToolCall(
-                    id = tc.id,
-                    function = Function(
-                        name = tc.function.name,
-                        arguments = tc.function.arguments
+                    id=tc.id,
+                    function=Function(
+                        name=tc.function.name, arguments=tc.function.arguments
                     ),
-                    type = 'function'
+                    type="function",
                 )
                 for tc in tool_calls
             ]
             message = ChatCompletionMessage(
-                role = 'assistant',
-                content = None,
-                tool_calls = completed_tool_calls
+                role="assistant", content=None, tool_calls=completed_tool_calls
             )
             yield from self._handle_tool_calls(message, context, stream=True)
 
@@ -143,7 +139,7 @@ class Agent:
         self, completions: Generator[dict[str, Any], None, None]
     ) -> Generator[str, None, None]:
         """
-        Helper generator method to extract content from 
+        Helper generator method to extract content from
         _stream_messages().
         """
         for chunk in completions:
@@ -158,8 +154,7 @@ class Agent:
         if isinstance(prompt, dict):
             if not self.prompt_template:
                 raise ValueError(
-                    "A dict prompt was provided, but the agent has no "
-                    "prompt_template."
+                    "A dict prompt was provided, but the agent has no prompt_template."
                 )
             prompt_str = self.prompt_template.format(**prompt)
         else:
@@ -168,10 +163,10 @@ class Agent:
         return [{"role": "user", "content": prompt_str}] if prompt_str else []
 
     def complete_with_context(
-        self, 
+        self,
         context: Optional[list[dict[str, Any]]] = None,
         prompt: Union[str, dict[str, Any], None] = None,
-        stream: bool = False
+        stream: bool = False,
     ) -> Union[list[dict[str, Any]], Generator[dict[str, Any], None, None]]:
         """Executes a completion within a given conversational context.
 
@@ -197,21 +192,18 @@ class Agent:
         # Convert any ChatCompletionMessages in the message history to dicts
         # before sending them to the any-llm API, which expects dicts.
         context_as_dicts = [
-            (
-                msg.model_dump(exclude_none=True) 
-                if isinstance(msg, BaseModel) else msg
-            )
+            (msg.model_dump(exclude_none=True) if isinstance(msg, BaseModel) else msg)
             for msg in context
         ]
-        
+
         user_message = self._build_user_message(prompt)
         completion = any_llm.completion(
             self.model,
             messages=context_as_dicts + user_message,
             stream=stream,
-            tools = self.tools,
+            tools=self.tools,
             response_format=self.response_format,
-            **self.params
+            **self.params,
         )
         if stream:
             return self._stream_messages(completion, context)
@@ -220,8 +212,7 @@ class Agent:
             return self._handle_tool_calls(message, context)
 
     def _handle_tool_calls(
-        self, message: Any, context: list[dict[str, Any]],
-        stream: bool = False
+        self, message: Any, context: list[dict[str, Any]], stream: bool = False
     ) -> Union[list[dict[str, Any]], Generator[dict[str, Any], None, None]]:
         """
         Recursively handles tool calls until a final response is generated.
@@ -229,18 +220,13 @@ class Agent:
         context = context + [message]
         if message.tool_calls:
             tool_messages = self._call_tools(message.tool_calls)
-            context = self.complete_with_context(
-                context + tool_messages,
-                stream=stream
-            )
+            context = self.complete_with_context(context + tool_messages, stream=stream)
         return context
 
     def _execute_tool_call(
-        self, 
-        tool_function: Callable[..., Any], 
-        arguments: dict[str, Any]
+        self, tool_function: Callable[..., Any], arguments: dict[str, Any]
     ) -> str:
-        """Executes a tool function, catching any exceptions and returning 
+        """Executes a tool function, catching any exceptions and returning
         any error messages to the LLM."""
         try:
             content = tool_function(**arguments)
@@ -249,9 +235,9 @@ class Agent:
                 "Error executing tool %s with arguments %s.",
                 tool_function.__name__,
                 arguments,
-                exc_info=True
+                exc_info=True,
             )
-            content = f"Error executing tool: {e}" # Return error msg to LLM
+            content = f"Error executing tool: {e}"  # Return error msg to LLM
         return str(content)
 
     def _call_tools(self, tool_calls: list[Any]) -> list[dict[str, Any]]:
@@ -262,13 +248,13 @@ class Agent:
                 "tool_call_id": tool_call.id,
                 "content": self._execute_tool_call(
                     tool_dict[tool_call.function.name],
-                    json.loads(tool_call.function.arguments)
+                    json.loads(tool_call.function.arguments),
                 ),
             }
             for tool_call in tool_calls
         ]
         return tool_messages
-    
+
     def _get_final_response(
         self, completion_context: list[Any]
     ) -> Union[str, BaseModel, dict[str, Any]]:
@@ -277,9 +263,8 @@ class Agent:
             return last_message.content
 
         parsed_data = last_message.parsed
-        if (
-            isinstance(self.response_format, type)
-            and issubclass(self.response_format, BaseModel)
+        if isinstance(self.response_format, type) and issubclass(
+            self.response_format, BaseModel
         ):
             return self.response_format(**parsed_data)
         return parsed_data
@@ -318,8 +303,8 @@ class Agent:
         )
         return (
             f"Agent("
-            f"model='{self.model}', "
-            f"instructions='{self.instructions}', "
+            f"model={self.model!r}, "
+            f"instructions={self.instructions!r}, "
             f"tools={tool_names}, "
             f"response_format={response_format_repr}, "
             f"prompt_template={self.prompt_template!r}, "
@@ -327,8 +312,10 @@ class Agent:
             f")"
         )
 
+
 class AgentBuilder:
     """A fluent builder for creating and configuring Agent instances."""
+
     def __init__(self, agent_cls: Type[Agent]):
         """Initializes the AgentBuilder.
 
@@ -342,7 +329,7 @@ class AgentBuilder:
         self.prompt_template = None
         self.params = {}
         self.tools = []
-        
+
     def build(self) -> Agent:
         """Builds and returns a configured Agent instance.
 
@@ -351,15 +338,15 @@ class AgentBuilder:
         """
         assert self.model is not None, "Model must be specified"
         return self.agent_cls(
-            self.model, 
+            self.model,
             self.instructions,
             self.tools,
             self.response_format,
             self.prompt_template,
-            self.params
+            self.params,
         )
 
-    def with_model(self, model: str) -> 'AgentBuilder':
+    def with_model(self, model: str) -> "AgentBuilder":
         """Sets the language model for the agent.
 
         Args:
@@ -386,7 +373,7 @@ class AgentBuilder:
         """
         self.instructions = instructions
         return self
-    
+
     def with_tools(self, tools: list[Callable[..., Any]]) -> "AgentBuilder":
         """Provides a list of Python functions to be used as tools by the agent.
 

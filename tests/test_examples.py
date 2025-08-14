@@ -33,10 +33,12 @@ def test_example_1_data_standardization():
     agent_address_standardizer = (
         fllume.Agent.builder()
         .with_model(MODEL)
-        .with_instructions((
-            "Standardize the given address into its components: "
-            "street, city, state, and zip code."
-        ))
+        .with_instructions(
+            (
+                "Standardize the given address into its components: "
+                "street, city, state, and zip code."
+            )
+        )
         .with_response_format(StandardizedAddress)
         .with_prompt_template("Standardize this address: {address}")
         .build()
@@ -116,18 +118,18 @@ def test_example_3_data_summary_streaming():
     agent_data_summarizer = (
         fllume.Agent.builder()
         .with_model(MODEL)
-        .with_instructions((
-            "You are a data analyst. Summarize the key insights from the "
-            "provided DataFrame, focusing on population and area trends. "
-            "Be concise but informative."
-        ))
+        .with_instructions(
+            (
+                "You are a data analyst. Summarize the key insights from the "
+                "provided DataFrame, focusing on population and area trends. "
+                "Be concise but informative."
+            )
+        )
         .with_prompt_template("Summarize the following DataFrame:\n{dataframe}")
         .build()
     )
 
-    stream = agent_data_summarizer.complete(
-        {"dataframe": df.to_string()}, stream=True
-    )
+    stream = agent_data_summarizer.complete({"dataframe": df.to_string()}, stream=True)
 
     assert isinstance(stream, Generator)
 
@@ -148,10 +150,12 @@ def test_example_4_multi_turn_conversation():
     plotting_assistant = (
         fllume.Agent.builder()
         .with_model(MODEL)
-        .with_instructions((
-            "You are a data visualization assistant. You provide Python code "
-            "snippets for generating plots with matplotlib."
-        ))
+        .with_instructions(
+            (
+                "You are a data visualization assistant. You provide Python code "
+                "snippets for generating plots with matplotlib."
+            )
+        )
         .build()
     )
 

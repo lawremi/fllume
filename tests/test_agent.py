@@ -14,26 +14,20 @@ requires_openai = pytest.mark.skipif(
 
 MODEL = "openai/gpt-4o-mini"
 
+
 @requires_openai
 def test_agent_simple_completion():
-    agent = (
-        fllume.Agent.builder()
-        .with_model(MODEL)
-        .build()
-    )
+    agent = fllume.Agent.builder().with_model(MODEL).build()
     prompt = "What is the capital of France?"
     response = agent.complete(prompt)
 
     assert isinstance(response, str)
     assert "Paris" in response
 
+
 @requires_openai
 def test_agent_streaming_completion():
-    agent = (
-        fllume.Agent.builder()
-        .with_model(MODEL)
-        .build()
-    )
+    agent = fllume.Agent.builder().with_model(MODEL).build()
     prompt = "What is the capital of France?"
     stream = agent.complete(prompt, stream=True)
 
@@ -48,21 +42,18 @@ def test_agent_streaming_completion():
 
     full_response = "".join(response_parts)
     assert "Paris" in full_response
- 
+
+
 def get_user_name(user_id: int) -> str:
     """A dummy tool to get a username from a user ID."""
     if user_id == 123:
         return "Alice"
     return "Unknown User"
 
+
 @requires_openai
 def test_agent_tool_calling():
-    agent = (
-        fllume.Agent.builder()
-        .with_model(MODEL)
-        .with_tools([get_user_name])
-        .build()
-    )
+    agent = fllume.Agent.builder().with_model(MODEL).with_tools([get_user_name]).build()
     prompt = "What is the username for user ID 123?"
     response = agent.complete(prompt)
 
@@ -75,12 +66,7 @@ def test_agent_tool_calling_streaming():
     """
     Tests that the agent can correctly use a provided tool while streaming.
     """
-    agent = (
-        fllume.Agent.builder()
-        .with_model(MODEL)
-        .with_tools([get_user_name])
-        .build()
-    )
+    agent = fllume.Agent.builder().with_model(MODEL).with_tools([get_user_name]).build()
     prompt = "What is the username for user ID 123?"
     stream = agent.complete(prompt, stream=True)
 
@@ -122,14 +108,10 @@ class User(BaseModel):
     name: str
     age: int
 
+
 @requires_openai
 def test_agent_response_format():
-    agent = (
-        fllume.Agent.builder()
-        .with_model(MODEL)
-        .with_response_format(User)
-        .build()
-    )
+    agent = fllume.Agent.builder().with_model(MODEL).with_response_format(User).build()
     prompt = "The user's name is Jean-Luc and he is 59 years old."
     response = agent.complete(prompt)
 
