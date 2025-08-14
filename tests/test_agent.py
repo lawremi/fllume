@@ -2,7 +2,7 @@ import pytest
 import os
 import fllume
 from dotenv import load_dotenv
-from typing import Generator
+from typing import Generator, Union
 from pydantic import BaseModel
 
 load_dotenv()
@@ -93,6 +93,30 @@ def test_agent_tool_calling_streaming():
 
     full_response = "".join(response_parts)
     assert "Alice" in full_response
+
+
+@requires_openai
+def test_agent_with_prompt_template():
+    """Tests that the agent can use a prompt template with a dictionary."""
+    agent = (
+        fllume.Agent.builder()
+        .with_model(MODEL)
+        .with_prompt_template("What is the capital of {country}?")
+        .build()
+    )
+    response = agent.complete({"country": "France"})
+    assert isinstance(response, str)
+    assert "Paris" in response
+
+
+def test_agent_dict_prompt_without_template_raises_error():
+    """
+    Tests that providing a dict prompt without a template raises a ValueError.
+    """
+    agent = fllume.Agent.builder().with_model(MODEL).build()
+    with pytest.raises(ValueError, match="agent has no prompt_template"):
+        agent.complete({"country": "France"})
+
 
 class User(BaseModel):
     name: str

@@ -18,6 +18,7 @@ authors = [
 ]
 dependencies = [
     "any-llm-sdk>=0.6.0",
+    "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]

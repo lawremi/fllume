@@ -17,12 +17,14 @@ class Agent:
         model: str, 
         instructions: Optional[str] = None, 
         tools: Optional[list[Callable[..., Any]]] = None,
-        response_format: Union[dict[str, Any], type[BaseModel], None] = None,
+        response_format: Optional[Union[dict[str, Any], type[BaseModel]]] = None,
+        prompt_template: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
     ):
         self.model = model
         self.tools = tools if tools is not None else []
         self.response_format = response_format
+        self.prompt_template = prompt_template
         self.params = params if params is not None else {}
         self.instructions = self._build_instructions(instructions)
         
@@ -109,15 +111,31 @@ class Agent:
         for chunk in completions:
             if chunk.content is not None:
                 yield chunk.content
-        
+
+    def _build_user_message(
+        self, prompt: Union[str, dict[str, Any], None]
+    ) -> list[dict[str, Any]]:
+        """Builds the user message list from a string or dictionary prompt."""
+        prompt_str: Optional[str]
+        if isinstance(prompt, dict):
+            if not self.prompt_template:
+                raise ValueError(
+                    "A dict prompt was provided, but the agent has no prompt_template."
+                )
+            prompt_str = self.prompt_template.format(**prompt)
+        else:
+            prompt_str = prompt  # It's a string or None
+
+        return [{"role": "user", "content": prompt_str}] if prompt_str else []
+
     def complete_with_context(
         self, 
         context: Optional[list[dict[str, Any]]] = None,
-        prompt: Optional[str] = None,
+        prompt: Union[str, dict[str, Any], None] = None,
         stream: bool = False
     ) -> Union[list[dict[str, Any]], Generator[dict[str, Any], None, None]]:
         context = context if context is not None else []
-        user_message = [{"role": "user", "content": prompt}] if prompt else []
+        user_message = self._build_user_message(prompt)
         
         completion = any_llm.completion(
             self.model,
@@ -197,7 +215,7 @@ class Agent:
         return parsed_data
 
     def complete(
-        self, prompt: str, stream: bool = False
+        self, prompt: Union[str, dict[str, Any]], stream: bool = False
     ) -> Union[str, Generator[str, None, None], BaseModel, dict[str, Any]]:
         context = [{"role": "system", "content": self.instructions}]
         completion = self.complete_with_context(context, prompt, stream)
@@ -219,6 +237,7 @@ class Agent:
             f"instructions='{self.instructions}', "
             f"tools={tool_names}, "
             f"response_format={response_format_repr}, "
+            f"prompt_template='{self.prompt_template}', "
             f"params={self.params}"
             f")"
         )
@@ -229,6 +248,7 @@ class AgentBuilder:
         self.model = None
         self.instructions = None
         self.response_format = None
+        self.prompt_template = None
         self.params = {}
         self.tools = []
         
@@ -239,6 +259,7 @@ class AgentBuilder:
             self.instructions,
             self.tools,
             self.response_format,
+            self.prompt_template,
             self.params
         )
 
@@ -258,6 +279,10 @@ class AgentBuilder:
         self, response_format: Union[dict[str, Any], type[BaseModel]]
     ) -> "AgentBuilder":
         self.response_format = response_format
+        return self
+
+    def with_prompt_template(self, template: str) -> "AgentBuilder":
+        self.prompt_template = template
         return self
 
     def with_params(self, params: dict[str, Any]):
