@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fllume - A Fluent Python API for LLM Agents</title>
+    <meta name="description" content="Simplify LLM interactions for data science workflows with fllume's fluent Python API">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lawremi.github.io/fllume/">
+    <meta property="og:title" content="fllume - A Fluent Python API for LLM Agents">
+    <meta property="og:description" content="Simplify LLM interactions for data science workflows with fllume's fluent Python API">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://lawremi.github.io/fllume/">
+    <meta property="twitter:title" content="fllume - A Fluent Python API for LLM Agents">
+    <meta property="twitter:description" content="Simplify LLM interactions for data science workflows with fllume's fluent Python API">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1 class="logo">fllume</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="../build/html/index.html" class="nav-link">Documentation</a>
+                <a href="../build/html/api.html" class="nav-link">API Reference</a>
+                <a href="https://github.com/lawremi/fllume" class="nav-link" target="_blank">GitHub</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">A Fluent Python API for LLM Agents</h1>
+                <p class="hero-subtitle">Simplify LLM interactions for data science workflows</p>
+                <div class="hero-buttons">
+                    <a href="../build/html/getting-started.html" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/lawremi/fllume" class="btn btn-secondary" target="_blank">View on GitHub</a>
+                </div>
+                <div class="hero-code">
+                    <pre><code class="language-python">from fllume import Agent
+
+# Create an agent with fluent API
+agent = (Agent.builder()
+    .with_model("openai/gpt-4")
+    .with_instructions("You are a helpful data science assistant")
+    .with_tools([get_weather, analyze_data])
+    .build())
+
+# Get a response
+response = agent.complete("What's the weather like in San Francisco?")</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose fllume?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Pythonic & Fluent</h3>
+                    <p class="feature-description">Chain methods naturally with a readable, intuitive API designed for data scientists</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Easy Tool Integration</h3>
+                    <p class="feature-description">Convert Python functions into LLM tools with automatic schema generation</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <rect x="7" y="7" width="3" height="9"></rect>
+                            <rect x="14" y="7" width="3" height="5"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Structured Responses</h3>
+                    <p class="feature-description">Get consistent, typed responses using Pydantic models</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation">
+        <div class="container">
+            <h2 class="section-title">Get Started in Seconds</h2>
+            <div class="install-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="uv">Using uv</button>
+                    <button class="tab-button" data-tab="pip">Using pip</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="uv">
+                        <div class="code-block">
+                            <pre><code class="language-bash">uv add fllume</code></pre>
+                            <button class="copy-btn" data-copy="uv add fllume">Copy</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="pip">
+                        <div class="code-block">
+                            <pre><code class="language-bash">pip install fllume</code></pre>
+                            <button class="copy-btn" data-copy="pip install fllume">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="install-link">
+                <a href="../build/html/getting-started.html">Full installation guide →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Quick Example Section -->
+    <section class="example">
+        <div class="container">
+            <h2 class="section-title">See It In Action</h2>
+            <div class="example-content">
+                <div class="code-block">
+                    <pre><code class="language-python">from fllume import Agent
+from pydantic import BaseModel
+import requests
+
+def get_weather(city: str) -> str:
+    """Get current weather for a city."""
+    # Simplified weather API call
+    response = requests.get(f"https://api.weather.com/{city}")
+    return response.json()["current"]["condition"]
+
+class WeatherResponse(BaseModel):
+    city: str
+    condition: str
+    recommendation: str
+
+# Create a weather agent
+weather_agent = (Agent.builder()
+    .with_model("openai/gpt-4")
+    .with_instructions("You are a helpful weather assistant")
+    .with_tools([get_weather])
+    .with_response_format(WeatherResponse)
+    .build())
+
+# Get structured weather information
+result = weather_agent.complete("What's the weather in Paris and should I bring an umbrella?")
+print(f"City: {result.city}")
+print(f"Condition: {result.condition}")
+print(f"Recommendation: {result.recommendation}")</code></pre>
+                    <button class="copy-btn" data-copy-code="example">Copy</button>
+                </div>
+            </div>
+            <p class="example-link">
+                <a href="../build/html/getting-started.html">More examples →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Documentation CTA Section -->
+    <section class="docs-cta">
+        <div class="container">
+            <h2 class="section-title">Ready to Dive Deeper?</h2>
+            <div class="docs-grid">
+                <a href="../build/html/getting-started.html" class="doc-card">
+                    <h3>Getting Started Guide</h3>
+                    <p>Learn the basics and create your first agent</p>
+                </a>
+                <a href="../build/html/api.html" class="doc-card">
+                    <h3>API Reference</h3>
+                    <p>Complete documentation of all classes and methods</p>
+                </a>
+                <a href="../build/html/getting-started.html" class="doc-card">
+                    <h3>Getting Started</h3>
+                    <p>Learn with practical examples and use cases</p>
+                </a>
+                <a href="https://github.com/lawremi/fllume" class="doc-card" target="_blank">
+                    <h3>GitHub Repository</h3>
+                    <p>Source code, issues, and contributions</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../build/html/index.html">Documentation</a>
+                    <a href="https://github.com/lawremi/fllume" target="_blank">GitHub</a>
+                    <a href="https://github.com/lawremi/fllume/issues" target="_blank">Issues</a>
+                    <a href="https://pypi.org/project/fllume/" target="_blank">PyPI</a>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2024 Michael Lawrence. Released under the MIT License.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
