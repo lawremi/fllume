@@ -1,5 +1,6 @@
 import any_llm
 import json
+
 import logging
 from typing import Any, Callable, Generator, Iterator, Optional, Type, Union
 from pydantic import BaseModel
@@ -193,10 +194,20 @@ class Agent:
         """
         context = context if context is not None else []
         user_message = self._build_user_message(prompt)
+
+        # Convert any ChatCompletionMessages in the message history to dicts
+        # before sending them to the any-llm API, which expects dicts.
+        context_as_dicts = [
+            (
+                msg.model_dump(exclude_none=True) 
+                if isinstance(msg, ChatCompletionMessage) else msg
+            )
+            for msg in context
+        ]
         
         completion = any_llm.completion(
             self.model,
-            messages = context + user_message,
+            messages=context_as_dicts + user_message,
             stream=stream,
             tools = self.tools,
             response_format=self.response_format,
