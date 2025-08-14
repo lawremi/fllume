@@ -192,19 +192,20 @@ class Agent:
             streaming, the updated context list including the new user prompt
             and the assistant's response.
         """
-        context = context if context is not None else []
-        user_message = self._build_user_message(prompt)
+        if context is None:
+            context = [{"role": "system", "content": self.instructions}]
 
         # Convert any ChatCompletionMessages in the message history to dicts
         # before sending them to the any-llm API, which expects dicts.
         context_as_dicts = [
             (
                 msg.model_dump(exclude_none=True) 
-                if isinstance(msg, ChatCompletionMessage) else msg
+                if isinstance(msg, BaseModel) else msg
             )
             for msg in context
         ]
         
+        user_message = self._build_user_message(prompt)
         completion = any_llm.completion(
             self.model,
             messages=context_as_dicts + user_message,
@@ -303,8 +304,7 @@ class Agent:
             The agent's response, which can be a string, a Pydantic model, a
             dictionary, or a generator of strings if streaming.
         """
-        context = [{"role": "system", "content": self.instructions}]
-        completion = self.complete_with_context(context, prompt, stream)
+        completion = self.complete_with_context(prompt=prompt, stream=stream)
         if stream:
             return self._stream_content(completion)
         else:

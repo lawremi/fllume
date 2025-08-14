@@ -149,17 +149,27 @@ fllume can maintain conversational context, allowing for follow-up questions and
 ```python
 from fllume.agent import Agent
 # Create an agent
-tutor = (
+plotting_assistant = (
     Agent.builder()
     .with_model("openai/gpt-4o-mini")
-    .with_instructions("You are a helpful Python tutor.")
+    .with_instructions(
+        "You are a data visualization assistant. You provide Python code "
+        "snippets for generating plots with matplotlib."
+    )
     .build()
 )
-# Start the conversation. We manually create the initial context.
-context = tutor.complete_with_context(prompt="What is a list in Python?")
+
+# First turn
+context = plotting_assistant.complete_with_context(
+    prompt="Give me some code to create a simple scatter plot of x vs y.",
+)
 print(f"Assistant: {context[-1].content}")
+
 # Ask a follow-up question. The agent remembers the previous turn.
-context = tutor.complete_with_context(context, "Can you give me an example of one?")
+context = plotting_assistant.complete_with_context(
+    context=context,
+    prompt="Now, can you modify that to make the points blue and add a title?",
+)
 print(f"\nAssistant: {context[-1].content}")
 ```
 

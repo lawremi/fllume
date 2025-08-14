@@ -145,26 +145,29 @@ def test_example_4_multi_turn_conversation():
     """
     Tests the multi-turn conversation example from README.md.
     """
-    tutor = (
+    plotting_assistant = (
         fllume.Agent.builder()
         .with_model(MODEL)
-        .with_instructions("You are a concise, helpful Python tutor.")
+        .with_instructions(
+            "You are a data visualization assistant. You provide Python code "
+            "snippets for generating plots with matplotlib."
+        )
         .build()
     )
 
-    # Start the conversation with the system prompt
-    context = [{"role": "system", "content": tutor.instructions}]
-
     # First turn
-    context = tutor.complete_with_context(
-        context=context, prompt="What is a list in Python?"
+    context = plotting_assistant.complete_with_context(
+        prompt="Give me some code to create a simple scatter plot of x vs y.",
     )
     first_response = context[-1].content
-    assert "list" in first_response.lower()
+    assert "scatter" in first_response.lower()
+    assert "matplotlib" in first_response.lower()
 
     # Second turn (follow-up question)
-    context = tutor.complete_with_context(
-        context=context, prompt="Can you give me an example of one?"
+    context = plotting_assistant.complete_with_context(
+        context=context,
+        prompt="Now, can you modify that to make the points blue and add a title?",
     )
     second_response = context[-1].content
-    assert ("`" in second_response) or ("[" in second_response)
+    assert "blue" in second_response.lower()
+    assert "title" in second_response.lower()
