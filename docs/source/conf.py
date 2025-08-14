@@ -26,6 +26,7 @@ version = '0.0.1'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    'sphinx_rtd_theme',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
@@ -45,10 +46,9 @@ html_static_path = ['_static']
 
 # Theme options
 html_theme_options = {
-    'canonical_url': 'https://lawremi.github.io/fllume/',
     'analytics_id': '',
     'logo_only': False,
-    'display_version': True,
+    # 'display_version': True,  # This is a valid option, but can cause issues.
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     'vcs_pageview_mode': '',
@@ -151,6 +151,9 @@ html_show_sourcelink = True
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = True
 
+# The base URL which points to the root of the HTML documentation.
+html_baseurl = 'https://lawremi.github.io/fllume/'
+
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = True
 
@@ -170,7 +173,7 @@ html_search_options = {'type': 'default'}
 
 # The name of a javascript file (relative to the configuration directory) that
 # implements a search results scorer. If empty, the default will be used.
-html_search_scorer = 'scorer.js'
+# html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'fllumedoc'

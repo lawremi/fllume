@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; fllume v0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ee01a212" />
+
+  
+    <link rel="canonical" href="https://lawremi.github.io/fllume/api.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within fllume v0.0.1"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #1e3a8a" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            fllume
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fllume.agent.Agent"><code class="docutils literal notranslate"><span class="pre">Agent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.Agent.__init__"><code class="docutils literal notranslate"><span class="pre">Agent.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.Agent.builder"><code class="docutils literal notranslate"><span class="pre">Agent.builder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.Agent.complete_with_context"><code class="docutils literal notranslate"><span class="pre">Agent.complete_with_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.Agent.complete"><code class="docutils literal notranslate"><span class="pre">Agent.complete()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fllume.agent.AgentBuilder"><code class="docutils literal notranslate"><span class="pre">AgentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.build"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.build()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_model"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_instructions"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_instructions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_tools"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_tools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_response_format"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_response_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_prompt_template"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_prompt_template()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fllume.agent.AgentBuilder.with_params"><code class="docutils literal notranslate"><span class="pre">AgentBuilder.with_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #1e3a8a" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">fllume</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This page provides an auto-generated summary of fllume’s public API.</p>
+<dl class="py class" id="module-fllume.agent">
+<dt class="sig sig-object py" id="fllume.agent.Agent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fllume.agent.</span></span><span class="sig-name descname"><span class="pre">Agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#Agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.Agent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An LLM-powered agent that can complete prompts, use tools, and more.</p>
+<p>The Agent class is the main entry point for interacting with large language
+models. It can be configured with specific instructions, tools, response
+formats, and other parameters to tailor its behavior for specific tasks.</p>
+<p>It is recommended to create Agent instances using the fluent <cite>AgentBuilder</cite>
+by calling <cite>Agent.builder()</cite>.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.Agent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#Agent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.Agent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the Agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The identifier of the language model to use (e.g.,
+‘ollama/llama3’). See the <a class="reference external" href="https://mozilla-ai.github.io/any-llm/providers/">any-llm documentation</a> for a
+full list of providers, depending on how any-llm was installed.</p></li>
+<li><p><strong>instructions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – The system-level instructions for the agent.</p></li>
+<li><p><strong>tools</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – A list of Python functions to be used as tools.
+Annotating each function with a docstring and type hints will
+help the model make effective use of them.</p></li>
+<li><p><strong>response_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.13)"><em>type</em></a><em>[</em><a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><em>BaseModel</em></a><em>] </em><em>| </em><em>None</em>) – The desired format for the response, e.g., a
+Pydantic model or a JSON schema.</p></li>
+<li><p><strong>prompt_template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – A template for formatting dictionary-based
+prompts, as a format string.</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Additional parameters to pass to the LLM API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.Agent.builder">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">builder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#Agent.builder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.Agent.builder" title="Link to this definition"></a></dt>
+<dd><p>Creates a new AgentBuilder instance for fluently
+constructing an Agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of AgentBuilder.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#fllume.agent.AgentBuilder" title="fllume.agent.AgentBuilder"><em>AgentBuilder</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.Agent.complete_with_context">
+<span class="sig-name descname"><span class="pre">complete_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#Agent.complete_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.Agent.complete_with_context" title="Link to this definition"></a></dt>
+<dd><p>Executes a completion within a given conversational context.</p>
+<p>This method is used for multi-turn interactions. The <cite>context</cite> returned
+from one call should be passed as the <cite>context</cite> argument in the next
+call to maintain the conversational history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – The list of messages representing the conversation
+history.</p></li>
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – The new user prompt to add to the conversation.</p></li>
+<li><p><strong>stream</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If True, the response will be returned as a generator of
+message objects. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If streaming, a generator that yields message objects. If not
+streaming, the updated context list including the new user prompt
+and the assistant’s response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]] | <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.13)"><em>Generator</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>], None, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.Agent.complete">
+<span class="sig-name descname"><span class="pre">complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#Agent.complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.Agent.complete" title="Link to this definition"></a></dt>
+<dd><p>Executes a prompt and returns the agent’s response.</p>
+<p>This is the primary method for interacting with the agent. It takes a
+prompt, sends it to the LLM (along with any configured context, tools,
+etc.), and returns the final response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) – The user prompt. Can be a string or a dictionary if the
+agent was configured with a <cite>prompt_template</cite>.</p></li>
+<li><p><strong>stream</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If True, the response will be returned as a generator of
+string chunks. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agent’s response, which can be a string, a Pydantic model, a
+dictionary, or a generator of strings if streaming.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> | <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.13)"><em>Generator</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, None, None] | <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><em>BaseModel</em></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fllume.agent.</span></span><span class="sig-name descname"><span class="pre">AgentBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A fluent builder for creating and configuring Agent instances.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the AgentBuilder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent_cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.13)"><em>Type</em></a><em>[</em><a class="reference internal" href="#fllume.agent.Agent" title="fllume.agent.Agent"><em>Agent</em></a><em>]</em>) – The Agent class to be instantiated by the builder.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.build" title="Link to this definition"></a></dt>
+<dd><p>Builds and returns a configured Agent instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new Agent instance with the specified configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#fllume.agent.Agent" title="fllume.agent.Agent"><em>Agent</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_model">
+<span class="sig-name descname"><span class="pre">with_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_model" title="Link to this definition"></a></dt>
+<dd><p>Sets the language model for the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – <p>The identifier of the language model to use (e.g.,
+“ollama/llama3”).  See the <a class="reference external" href="https://mozilla-ai.github.io/any-llm/providers/">any-llm documentation</a> for a
+full list of providers, depending on how any-llm was installed.</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fllume.agent.AgentBuilder" title="fllume.agent.AgentBuilder"><em>AgentBuilder</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_instructions">
+<span class="sig-name descname"><span class="pre">with_instructions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_instructions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_instructions" title="Link to this definition"></a></dt>
+<dd><p>Sets the system-level instructions for the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>instructions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – A string containing the instructions that guide the
+agent’s behavior.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_tools">
+<span class="sig-name descname"><span class="pre">with_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_tools" title="Link to this definition"></a></dt>
+<dd><p>Provides a list of Python functions to be used as tools by the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tools</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em><em>]</em>) – A list of callable Python functions.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_response_format">
+<span class="sig-name descname"><span class="pre">with_response_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response_format</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_response_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_response_format" title="Link to this definition"></a></dt>
+<dd><p>Specifies the desired format for the agent’s response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>response_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.13)"><em>type</em></a><em>[</em><a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><em>BaseModel</em></a><em>]</em>) – A Pydantic model or a JSON schema dictionary that
+defines the structure of the output.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fllume.agent.AgentBuilder" title="fllume.agent.AgentBuilder"><em>AgentBuilder</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_prompt_template">
+<span class="sig-name descname"><span class="pre">with_prompt_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_prompt_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_prompt_template" title="Link to this definition"></a></dt>
+<dd><p>Sets a prompt template for formatting dictionary-based prompts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – A format string (e.g., “Summarize: {text}”).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fllume.agent.AgentBuilder" title="fllume.agent.AgentBuilder"><em>AgentBuilder</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fllume.agent.AgentBuilder.with_params">
+<span class="sig-name descname"><span class="pre">with_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fllume/agent.html#AgentBuilder.with_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fllume.agent.AgentBuilder.with_params" title="Link to this definition"></a></dt>
+<dd><p>Sets additional parameters to be passed to the LLM API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) – A dictionary of parameters (e.g., {“temperature”: 0.7}).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AgentBuilder instance for chaining.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Michael Lawrence.
+      <span class="lastupdated">Last updated on Aug 14, 2025.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

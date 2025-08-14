@@ -4,7 +4,12 @@
 # You can set these variables from the command line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
-SPHINXBUILD  ?= sphinx-build
+
+# Point to the executables in the project's virtual environment
+# This ensures that the correct dependencies are found.
+VENV_PATH       ?= ../.venv
+SPHINXBUILD     ?= $(VENV_PATH)/bin/sphinx-build
+SPHINXAUTOBUILD ?= $(VENV_PATH)/bin/sphinx-autobuild
 SOURCEDIR    = source
 BUILDDIR     = build
 
@@ -28,7 +33,7 @@ clean:
 # Live HTML with auto-reload for development
 livehtml:
 	@echo "Starting live HTML server with auto-reload..."
-	@sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O) \
+	@$(SPHINXAUTOBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O) \
 		--host 0.0.0.0 \
 		--port 8000 \
 		--open-browser \

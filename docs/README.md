@@ -7,7 +7,6 @@ This directory contains the documentation for the Fllume project, including both
 ```
 docs/
 ├── README.md              # This file
-├── requirements.txt       # Documentation dependencies
 ├── Makefile              # Build automation
 ├── .nojekyll             # Prevents Jekyll processing on GitHub Pages
 ├── source/               # Sphinx documentation source
@@ -31,7 +30,8 @@ docs/
 
 1. Install Python dependencies:
    ```bash
-   pip install -r docs/requirements.txt
+   # From the root of the project
+   uv pip install -e ".[dev,doc]"
    ```
 
 ### Build Commands
@@ -65,11 +65,14 @@ This starts a development server with auto-reload functionality:
 If you prefer not to use the Makefile:
 
 ```bash
-# Build Sphinx docs
-sphinx-build -b html source build/html
+# It is recommended to run these commands from within the project's virtual
+# environment. You can use `uv run` to execute them without activating it.
+
+# Build Sphinx docs from the project root
+uv run sphinx-build -b html docs/source docs/build/html
 
 # For live development
-sphinx-autobuild source build/html --host 0.0.0.0 --port 8000 --open-browser
+uv run sphinx-autobuild docs/source docs/build/html --host 0.0.0.0 --port 8000 --open-browser
 ```
 
 ## GitHub Pages Deployment
@@ -84,15 +87,15 @@ The documentation is automatically deployed to GitHub Pages using GitHub Actions
 
 2. **Build Process**:
    - Sets up Python 3.11 environment
-   - Installs dependencies from `docs/requirements.txt`
-   - Builds Sphinx documentation using `make html`
-   - Copies landing page files to the root of the site
-   - Copies Sphinx docs to `/build/html/` path
+   - Installs doc dependencies from `pyproject.toml`
+   - Builds the Sphinx documentation
+   - Assembles a final site with the landing page at the root and the
+     Sphinx documentation in a `/docs/` subdirectory.
    - Deploys to GitHub Pages
 
 3. **Site Structure**:
    - **Root (`/`)**: Landing page from `docs/website/`
-   - **Documentation (`/build/html/`)**: Sphinx-generated docs
+   - **Documentation (`/docs/`)**: Sphinx-generated docs
 
 ### Workflow File
 
@@ -142,19 +145,16 @@ For the best development experience:
 - **HTTPS**: Automatically enabled by GitHub Pages
 
 ### Dependencies
-- All documentation dependencies are listed in `docs/requirements.txt`
-- Includes Sphinx, theme, and any extensions
-- For live development, also install `sphinx-autobuild`
+- All documentation dependencies are managed in `pyproject.toml` under the `doc` optional-dependency group.
 
 ### Troubleshooting
 
 **Build fails locally**:
-- Check that all dependencies are installed: `pip install -r requirements.txt`
+- Check that all dependencies are installed from the project root: `uv pip install -e ".[doc]"`
 - Ensure you're in the `docs/` directory when running make commands
 
 **GitHub Pages deployment fails**:
-- Check the Actions tab for detailed error logs
-- Verify `docs/requirements.txt` includes all necessary dependencies
+ Check the Actions tab for detailed error logs
 - Ensure repository has Pages enabled in Settings
 
 **Live reload not working**:

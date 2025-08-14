@@ -28,6 +28,11 @@ dev = [
     "python-dotenv>=1.0.0",
     "pandas>=2.2.0",
 ]
+doc = [
+    "sphinx>=7.0",
+    "sphinx-rtd-theme>=1.3",
+    "sphinx-autobuild>=2021.3.14",
+]
 
 [tool.poetry]
 packages = [{include = "fllume", from = "src"}]

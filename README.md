@@ -12,6 +12,8 @@ uv pip install git+https://github.com/lawremi/fllume.git
 
 # Or install in editable mode for development
 git clone https://github.com/lawremi/fllume.git
+cd fllume
+uv pip install -e ".[dev,doc]"
 ```
 
 ### Using pip
@@ -19,8 +21,10 @@ git clone https://github.com/lawremi/fllume.git
 ```bash
 # Install directly from GitHub
 pip install git+https://github.com/lawremi/fllume.git
+
+# Or install in editable mode for development
 cd fllume
-pip install -e .
+pip install -e ".[dev,doc]"
 ```
 
 ## Usage
