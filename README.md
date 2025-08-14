@@ -181,8 +181,41 @@ This approach significantly reduces the cognitive load and lines of code require
 ## Support
 
 - GitHub Issues: [https://github.com/lawremi/fllume/issues](https://github.com/lawremi/fllume/issues)
-- Documentation (forthcoming): [https://lawremi.github.io/fllume/](https://lawremi.github.io/fllume/)
+- Documentation: [https://lawremi.github.io/fllume/](https://lawremi.github.io/fllume/)
 
 ## Development
+
+This project uses `ruff` for linting and formatting. To check your code locally before committing, you can run:
+
+### Running Tests
+
+The project uses pytest for testing. To run the full test suite:
+```bash
+uv run pytest
+```
+Note: Some tests make live API calls and require the `OPENAI_API_KEY` environment variable to be set. These tests will be automatically skipped if the key is not found.
+
+### Linting and formatting
+
+```bash
+# Check for linting errors
+uv run ruff check .
+
+# Automatically format files
+uv run ruff format .
+```
+
+### Continuous Integration (CI)
+
+This project uses GitHub Actions to automatically run tests and linting on every
+push and pull request to the main branch. The CI pipeline will fail if:
+- The tests do not pass.
+- The linting checks fail.
+- The code is not formatted correctly according to ruff.
+
+Before pushing your changes, it is recommended to run `uv run pytest` , `uv run ruff check` 
+and `uv run ruff format` and locally to ensure the CI checks will pass.
+
+## Background
 
 This project is inspired by the R package [wizrd](https://github.com/lawremi/wizrd), adapted to provide a fluent, Python-native experience for working with LLMs.
