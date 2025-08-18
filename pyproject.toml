@@ -17,7 +17,7 @@ authors = [
     {name = "Michael Lawrence",email = "lawremi@gmail.com"}
 ]
 dependencies = [
-    "any-llm-sdk>=0.6.0",
+    "any-llm-sdk>=0.12.1",
     "pydantic>=2.0",
 ]
 
